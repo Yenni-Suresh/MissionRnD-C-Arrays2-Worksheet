@@ -19,7 +19,65 @@ struct transaction {
 	char date[11];
 	char description[20];
 };
-
+int giveyear(char *date)
+{
+	int i = 9,year=0,p=1;
+	while (i >= 6)
+	{
+		year = year + (date[i] - '0') * p;
+		p = p * 10;
+		i--;
+	}
+	return year;
+}
+int givemonth(char *date)
+{
+	int month;
+	month = date[4] - '0';
+	month = month + (date[3] - '0') * 10;
+	return month;
+}
+int giveday(char *date)
+{
+	int day;
+	day = date[1] - '0';
+	day = day + (date[0] - '0') * 10;
+	return day;
+}
 int countGreaterNumbers(struct transaction *Arr, int len, char *date) {
-	return -1;
+	int day, mon, year, i=0,j,temp;
+	year = giveyear(date);
+	mon = givemonth(date);
+	day = giveday(date);
+	while (i < len)
+	{
+		temp = giveyear(Arr[i].date);
+		if (temp >= year)
+		{
+			if (temp > year)
+				return len - i;
+		}
+		else{
+			i++;
+			continue;
+		}
+		temp = givemonth(Arr[i].date);
+		if (temp >= mon)
+		{
+			if (temp > mon)
+				return len - i;
+		}
+		else{
+			i++;
+			continue;
+		}
+		temp = giveday(Arr[i].date);
+		if (temp >= day)
+		{
+			if (temp > day)
+				return len - i;
+		}
+		i++;
+	}
+	return 0;
 }
